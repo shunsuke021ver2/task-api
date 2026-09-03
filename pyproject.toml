@@ -1,0 +1,12 @@
+# 依存管理は requirements*.txt で行う。
+# このファイルは開発ツール（pytest / ruff）の設定のみに使う。
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
