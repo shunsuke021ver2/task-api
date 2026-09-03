@@ -1,0 +1,37 @@
+name: CI
+
+# いつ実行するか
+on:
+  push:
+    branches: [main]        # main への push
+  pull_request:             # PR の作成・更新（宛先ブランチ問わず）
+
+jobs:
+  test:
+    runs-on: ubuntu-latest  # Linux の使い捨てマシンで実行
+
+    steps:
+      # 1. リポジトリのコードを取得
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # 2. Python 3.13 をセットアップ（pip キャッシュも有効化）
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      # 3. 依存をインストール（開発用 = ruff / pytest を含む）
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      # 4. Lint（違反があれば非0で終了 → ジョブ失敗）
+      - name: Lint (ruff)
+        run: ruff check .
+
+      # 5. テスト（失敗があれば非0で終了 → ジョブ失敗）
+      - name: Test (pytest)
+        run: pytest -q
