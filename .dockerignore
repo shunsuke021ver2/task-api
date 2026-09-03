@@ -1,0 +1,33 @@
+# イメージに入れる必要のない物を除外する（ビルド高速化・イメージ縮小）
+
+# git
+.git
+.gitignore
+.gitattributes
+
+# CI / エディタ
+.github
+.vscode
+.idea
+
+# Python 仮想環境・キャッシュ
+.venv
+venv
+__pycache__
+*.py[cod]
+.pytest_cache
+.ruff_cache
+.mypy_cache
+
+# テスト・ドキュメント（本番イメージには不要）
+tests
+README.md
+CLAUDE.md
+
+# 開発用依存とDocker関連ファイル自身
+requirements-dev.txt
+Dockerfile
+.dockerignore
+
+# 環境変数
+.env
