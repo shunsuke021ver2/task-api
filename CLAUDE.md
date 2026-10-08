@@ -6,14 +6,22 @@
 
 学習用のタスク管理 API（Python + FastAPI）。
 最終的に GitHub Actions / Docker / AWS ECS Fargate まで広げる。
-現在はフェーズ 0〜1（ローカルで動く最小構成、データはメモリ保持）。
+
+現在はフェーズ3まで完了（データはまだメモリ保持）:
+- フェーズ0〜1: ローカルで動く最小構成（`/health`、`/tasks` CRUD）
+- フェーズ2: GitHub Actions で CI（push/PR時に ruff + pytest）
+- フェーズ3: Docker化（マルチステージ、非root、`task-api:dev` としてローカルでビルド・起動確認済み）
+
+進捗の詳細・やり残しタスク・作業時の約束事は [docs/handover.md](docs/handover.md) を参照。
 
 ## 開発コマンド
 
 - セットアップ: `pip install -r requirements-dev.txt`
-- 起動: `uvicorn app.main:app --reload`
+- 起動（ローカル）: `uvicorn app.main:app --reload`
 - テスト: `pytest`
 - Lint: `ruff check .` / フォーマット: `ruff format .`
+- Dockerビルド: `docker build -t task-api:dev .`
+- Docker起動: `docker run -d --name task-api --rm -p 8000:8000 task-api:dev`
 
 ## 設計方針
 
@@ -30,8 +38,10 @@
 ## やらないこと（現フェーズ）
 
 - ルーターにビジネスロジックやデータ構造の直接操作を書かない。
-- DB、mypy、pre-commit、docker-compose はまだ導入しない。
+- DB、mypy、pre-commit、docker-compose はまだ導入しない（Docker自体は導入済み）。
 - 破壊的な変更や新しい依存の追加は、理由を説明してから行う。
+- git commit / push / GitHubへの操作（PR作成含む）は、実行前に説明し確認を取ってから行う。
+- git commit メッセージに Co-Authored-By 等のAI帰属トレーラーは付けない（詳細: [docs/handover.md](docs/handover.md)）。
 
 ## テスト方針
 

@@ -1,0 +1,8 @@
+# テキストファイルはリポジトリ内で常に LF に統一する。
+# Windows(core.autocrlf)でもLinux(Docker/CI)でも改行コードが揺れないようにするため。
+* text=auto eol=lf
+
+# 誤判定されやすいもの・バイナリは明示しておく
+*.png binary
+*.jpg binary
+*.ico binary
